@@ -3,6 +3,7 @@
 # test.yml
 - name: Bring up docker containers for docker connection inventory iface
   hosts: localhost
+  gather_facts: false
   roles:
     - role: provision_docker
       provision_docker_privileged: true,
