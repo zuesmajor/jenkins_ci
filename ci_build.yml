@@ -1,19 +1,18 @@
 ---
 
-# test.yml
 - name: Provision Test Ec2
   hosts: localhost
   gather_facts: false
   register: ec2_instance
   tasks:
-    - ec2:
-        key_name: aws-patrick-oregon
-        instance_type: t2.micro
-        image: ami-6df1e514
-        wait: yes
-        count: 1
-        vpc_subnet_id: subnet-9fcbd3c7
-        assign_public_ip: no
+  - ec2:
+      key_name: aws-patrick-oregon
+      instance_type: t2.micro
+      image: ami-6df1e514
+      wait: yes
+      count: 1
+      vpc_subnet_id: subnet-9fcbd3c7
+      assign_public_ip: no
 
 - debug: var=ec2_instance
 
