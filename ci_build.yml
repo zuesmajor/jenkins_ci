@@ -15,6 +15,10 @@
       count: 1
       vpc_subnet_id: subnet-9fcbd3c7
       assign_public_ip: no
+      region: us-west-2
+      instance_tags:
+         ansible: jenkins
+         buildcli: test
 
   - debug: var=ec2_instance
 
