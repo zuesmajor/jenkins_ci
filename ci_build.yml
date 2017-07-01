@@ -5,6 +5,8 @@
   connection: localhost
   gather_facts: false
   tasks:
+  - debug: msg="{{ansible_python_interpreter}}"
+  
   - ec2:
       key_name: aws-patrick-oregon
       instance_type: t2.micro
