@@ -2,6 +2,7 @@
 
 - name: Provision Test Ec2
   hosts: localhost
+  connection: localhost
   gather_facts: false
   tasks:
   - ec2:
