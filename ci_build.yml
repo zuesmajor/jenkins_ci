@@ -2,7 +2,7 @@
 
 - name: Provision Test Ec2
   hosts: localhost
-  delegate_to: localhost
+  connection: localhost
   gather_facts: false
   tasks:
   - debug: msg="{{ansible_python_interpreter}}"
