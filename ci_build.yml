@@ -3,7 +3,6 @@
 - name: Provision Test Ec2
   hosts: localhost
   gather_facts: false
-  register: ec2_instance
   tasks:
   - ec2:
       key_name: aws-patrick-oregon
@@ -14,7 +13,7 @@
       vpc_subnet_id: subnet-9fcbd3c7
       assign_public_ip: no
 
-- debug: var=ec2_instance
+  - debug: var=ec2_instance
 
 #- hosts: containers
 #  tasks:
