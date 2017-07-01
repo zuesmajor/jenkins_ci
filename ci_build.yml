@@ -4,6 +4,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  register: ec2_instance
   tasks:
   - debug: msg="{{ansible_python_interpreter}}"
 
