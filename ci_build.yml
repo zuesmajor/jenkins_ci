@@ -5,7 +5,7 @@
   connection: localhost
   gather_facts: false
   tasks:
-  - local_action: ansible_python_interpreter=/usr/bin/python2.7
+  
   - debug: msg="{{ansible_python_interpreter}}"
 
   - ec2:
