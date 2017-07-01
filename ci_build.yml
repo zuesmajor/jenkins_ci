@@ -5,7 +5,6 @@
   connection: local
   gather_facts: false
   tasks:
-  - register: ec2_instance
   - debug: msg="{{ansible_python_interpreter}}"
 
   - ec2:
@@ -20,6 +19,7 @@
       instance_tags:
          ansible: jenkins
          buildcli: test
+    register: ec2_instance
 
   - debug: var=ec2_instance
 
