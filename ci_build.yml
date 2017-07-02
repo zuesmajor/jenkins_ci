@@ -23,7 +23,7 @@
 
   - debug: var=ec2_instance
 
-#- hosts: containers
-#  tasks:
-#    - name: "Say hello to my new containers"
-#      ping:
+- hosts: "{{ ec2_instance.instances.public_ip }}"
+  tasks:
+    - name: "Say hello to my new containers"
+      ping:
