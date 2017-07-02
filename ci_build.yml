@@ -5,9 +5,9 @@
   connection: local
   gather_facts: false
   tasks:
-  - debug: msg="{{ansible_python_interpreter}}"
 
-  - ec2:
+  - name: Create Test Ec2
+    ec2:
       key_name: aws-patrick-oregon
       instance_type: t2.micro
       image: ami-6df1e514
@@ -21,9 +21,22 @@
          buildcli: test
     register: ec2_instance
 
-  - debug: var=ec2_instance
+  - name: Temporary Add Host IP
+    add_host:
+      name: "{{ ec2_instance.instances[0].public_ip }}"
+      groups: ec2-hosts
 
-- hosts: "{{ ec2_instance.instances.public_ip }}"
+- name: Test Ping New Host
+  hosts: ec2-hosts
+  user: ec2-user
+  gather_facts: false
+  vars:
+    ansible_ssh_private_key_file: ~/.ssh/aws-patrick-oregon.pem
   tasks:
+
+  - name: Pause To bypass Connection Refused
+    pause:
+      seconds: 15
+
   - name: "Say hello to my new containers"
     ping:
