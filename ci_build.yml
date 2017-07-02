@@ -38,5 +38,5 @@
     pause:
       seconds: 15
 
-  - name: "Say hello to my new containers"
+  - name: "Say hello to my new Instance"
     ping:
