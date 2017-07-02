@@ -25,5 +25,5 @@
 
 - hosts: "{{ ec2_instance.instances.public_ip }}"
   tasks:
-    - name: "Say hello to my new containers"
-      ping:
+  - name: "Say hello to my new containers"
+    ping:
