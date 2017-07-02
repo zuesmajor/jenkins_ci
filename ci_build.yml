@@ -26,8 +26,6 @@
       name: "{{ ec2_instance.instances[0].public_ip }}"
       groups: ec2-hosts
 
-  - name: Add to KnownHosts
-    local_action: command sh -c 'ssh-keyscan -t ecdsa-sha2-nistp256 {{ ec2_instance.instances[0].public_ip }} >> $HOME/.ssh/known_hosts'
 
 - name: Test Ping New Host
   hosts: ec2-hosts
