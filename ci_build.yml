@@ -30,13 +30,11 @@
   hosts: ec2-hosts
   user: ec2-user
   gather_facts: false
-  vars:
-    ansible_ssh_private_key_file: ~/.ssh/aws-patrick-oregon.pem
   tasks:
 
   - name: Pause To bypass Connection Refused
     pause:
-      seconds: 15
+      seconds: 25
 
   - name: "Say hello to my new Instance"
     ping:
