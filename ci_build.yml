@@ -30,13 +30,12 @@
     add_host:
       name: "{{ ec2_instance.instances[0].public_ip }}"
       groups: ec2-hosts
-      instance_id: "{{ ec2_instance.instance_ids[0] }}" 
+      instance_id: "{{ ec2_instance.instance_ids[0] }}"
 
 ########################
-
-- name: Test Ping New Host
+# Main Configuration Steps
+- name: Configuring new EC2 for Tests
   hosts: ec2-hosts
-  connection: local
   user: ec2-user
   gather_facts: false
   tasks:
@@ -45,11 +44,22 @@
     pause:
       seconds: 25
 
+  - include: configure.yml
+
+
+
+########################
 # Only executed when "-e delete_instance=true"
+- name: Return EC2 Instance 
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
   - name: Delete Instance when delete_instance is True
     ec2:
       state: absent
-      instance_id: "{{ instance_id }}"
+      instance_id: "{{ ec2_instance.instance_ids[0] }}"
       region: us-west-2
       wait: yes
     when: delete_instance | match("true")
