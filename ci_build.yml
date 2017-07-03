@@ -6,6 +6,11 @@
   gather_facts: false
   tasks:
 
+########################
+# Used for creating the EC2 Instance.
+# Must not be deleted
+########################
+
   - name: Create Test Ec2
     ec2:
       key_name: aws-patrick-oregon
@@ -27,9 +32,11 @@
       groups: ec2-hosts
       instance_id: "{{ ec2_instance.instance_ids[0] }}" 
 
+########################
 
 - name: Test Ping New Host
   hosts: ec2-hosts
+  connection: local
   user: ec2-user
   gather_facts: false
   tasks:
@@ -38,5 +45,12 @@
     pause:
       seconds: 25
 
-  - name: "Say hello to my new Instance"
-    ping:
+# Only executed when "-e delete_instance=true"
+  - name: Delete Instance when delete_instance is True
+    ec2:
+      state: absent
+      instance_id: "{{ instance_id }}"
+      region: us-west-2
+      wait: yes
+    when: delete_instance | match("true")
+
