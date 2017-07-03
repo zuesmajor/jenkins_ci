@@ -5,9 +5,3 @@
     name: git
     state: present
   become: true
-
-- name: Install apache
-  yum:
-    name: apache
-    state: present
-  become: true
