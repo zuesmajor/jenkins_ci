@@ -1,9 +1,20 @@
 ---
 
+########################
+# Change Variables here for EC2
+########################
+
 - name: Provision Test Ec2
   hosts: localhost
   connection: local
   gather_facts: false
+  vars:
+    ec2_private_key: aws-patrick-oregon
+    ec2_instance_type: t2.micro
+    ec2_ami_image: ami-6df1e514
+    ec2_subnet_id: subnet-9fcbd3c7
+    ec2_region: us-west-2
+    
   tasks:
 
 ########################
@@ -13,14 +24,14 @@
 
   - name: Create Test Ec2
     ec2:
-      key_name: aws-patrick-oregon
-      instance_type: t2.micro
-      image: ami-6df1e514
+      key_name: "{{ ec2_private_key }}"
+      instance_type: "{{ ec2_instance_type }}"
+      image: "{{ ec2_ami_image }}"
       wait: yes
       count: 1
-      vpc_subnet_id: subnet-9fcbd3c7
+      vpc_subnet_id: "{{ ec2_subnet_id }}"
       assign_public_ip: no
-      region: us-west-2
+      region: "{{ ec2_region }}"
       instance_tags:
          ansible: jenkins
          buildcli: test
@@ -33,7 +44,8 @@
       instance_id: "{{ ec2_instance.instance_ids[0] }}"
 
 ########################
-# Main Configuration Steps
+# Main Configuration Steps For New Instance
+
 - name: Configuring new EC2 for Tests
   hosts: ec2-hosts
   user: ec2-user
@@ -48,6 +60,8 @@
        - include: configure.yml
 
      rescue:
+     # This is for access variables across hosts.
+     # Sets a failure flag for when operators plays fail
        - debug: msg='Hit Rescue'
 
        - name: set Failure Fact
@@ -57,6 +71,7 @@
 
 ########################
 # Only executed when "-e delete_instance=true" or Failure flag is triggered in block
+
 - name: Return EC2 Instance 
   hosts: localhost
   connection: local
