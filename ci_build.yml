@@ -63,7 +63,7 @@
   gather_facts: false
   tasks:
 
-  - name: Delete Instance when delete_instance
+  - name: Delete Instance upon failure or specified
     ec2:
       state: absent
       instance_id: "{{ ec2_instance.instance_ids[0] }}"
