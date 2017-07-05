@@ -2,6 +2,6 @@
 
 - name: Install Git
   yum:
-    name: git
+    name: apache
     state: present
   become: true

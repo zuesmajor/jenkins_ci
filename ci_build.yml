@@ -40,27 +40,35 @@
   gather_facts: false
   tasks:
 
-  - name: Pause To bypass Connection Refused
-    pause:
-      seconds: 25
+   - block:
+       - name: Pause To bypass Connection Refused
+         pause:
+           seconds: 25
 
-  - include: configure.yml
+       - include: configure.yml
 
+     rescue:
+       - debug: msg='Hit Rescue'
+
+       - name: set Failure Fact
+         command: echo "Failed"
+         register: failed
 
 
 ########################
-# Only executed when "-e delete_instance=true"
+# Only executed when "-e delete_instance=true" or Failure flag is triggered in block
 - name: Return EC2 Instance 
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
 
-  - name: Delete Instance when delete_instance is True
+  - name: Delete Instance when delete_instance
     ec2:
       state: absent
       instance_id: "{{ ec2_instance.instance_ids[0] }}"
       region: us-west-2
       wait: yes
-    when: delete_instance | match("true")
+    when: delete_instance | default("false") or hostvars[ec2_instance.instances[0].public_ip].failed.stdout is defined
+    
 
