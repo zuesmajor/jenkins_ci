@@ -4,7 +4,8 @@ _**What it's for**_
 This automation framework is for an operator to fork and build their own playbooks to run against an EC2 instance for testing. Once you push your changes to github a build will automatically trigger and run your Ansible Plays against the EC2 instance.
 
 _**How to use**_
-The part that you want to pay attention to is this:
+
+The part that you want to pay attention to is within `ci_build.yml`:
 ```
 ########################
 # Main Configuration Steps For New Instance
